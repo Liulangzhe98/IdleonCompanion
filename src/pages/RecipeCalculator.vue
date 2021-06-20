@@ -45,31 +45,41 @@
   </div>
   <!-- Display Materials -->
   <div v-if="recipe && quantity" class="text-light">
-    <h4>Materials</h4>
+    <h4>Materials needed for {{quantity}} time{{quantity>1 ? "s" : ""}} {{data[recipe].name}}</h4>
     <div
-      class="row"
+      class="border-top border-bottom"
       v-for="(material, index) in materials.materials"
       :key="`material-${index}`"
+			
     >
       <div
-        class="border-top border-bottom col-sm-2"
+        v-bind:style="{ 
+				transform: 'translate(' + material.indent * 40 + 'px', display: 'flex'}"
       >
-        <GameAsset
-          :height="72"
-          :image="Assets.MaterialImage(material.name.replace(/ /g, '_'))"
-          :title="material.name"
-        >
-          <template #tooltip>
-            <div v-html="material.name"></div>
-          </template>
-        </GameAsset>
-      </div>
-      <div
-        class="border-top border-bottom col-sm-2 recipe-quantity"
-      >{{ (material.quantity * parseInt(quantity)).toLocaleString() }}</div>
-      <div
-        class="border-top border-bottom col-sm-6 padded-start"
-      >{{ material.name.padStart(material.name.length + material.indent * 12) }}</div>
+				<div 
+					v-bind:style="{padding: '5px'}"
+				>
+					<GameAsset
+						:height="72"
+						:image="Assets.MaterialImage(material.name.replace(/ /g, '_'))"
+						:title="material.name"
+					>
+						<template #tooltip>
+							<div v-html="material.name"></div>
+						</template>
+					</GameAsset>
+				</div>
+				<div 
+					v-bind:style="{flex: '15%', textAlign: 'right', marginRight: '5%'}"
+				>
+					{{ (material.quantity * parseInt(quantity)).toLocaleString() }}
+				</div>
+				<div
+					v-bind:style="{flex: '80%'}"
+				>
+					{{material.name}}
+				</div>
+		  </div>
     </div>
   </div>
 </template>
